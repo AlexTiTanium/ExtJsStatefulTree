@@ -31,10 +31,10 @@ Your tree view:
 Known issues:
 -----------
 
- - Use private API: 
+ - Used private API: 
  
         getTreeStore().tree.flatten();
     
 
  - If child node is expanded, parent node will be expanded too. 
-   Use ctrl + click for collapse all child nodes. 
+   Use ctrl + click for collapse parent node and all child nodes. 
