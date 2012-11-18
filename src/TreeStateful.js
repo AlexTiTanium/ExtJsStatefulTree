@@ -1,4 +1,4 @@
-**
+/**
 * TreeStateful plugin for ExtJs 4.1
 * 
 * @site https://github.com/AlexTiTanium/ExtJsStatefulTree 
