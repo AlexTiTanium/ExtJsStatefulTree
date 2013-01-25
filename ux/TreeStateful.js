@@ -1,7 +1,7 @@
 /**
 * TreeStateful plugin for ExtJs 4.1
-* 
-* @site https://github.com/AlexTiTanium/ExtJsStatefulTree 
+*
+* @site https://github.com/AlexTiTanium/ExtJsStatefulTree
 * @author Alex Kucherenko <kucherenko.email@gmail.com>
 * @copyright 2012 Alex Kucherenko
 * @version 1.0.0
@@ -28,9 +28,10 @@
 * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-Ext.define('Core.plugin.TreeStateful', {
-  extend: 'Ext.AbstractPlugin',
+Ext.define('Ext.ux.TreeStateful', {
   alias: 'plugin.treestateful',
+
+  extend: 'Ext.AbstractPlugin',
 
   init : function(view) {
 
@@ -41,7 +42,12 @@ Ext.define('Core.plugin.TreeStateful', {
     view['getState'] = me.getState;
     view['saveState'] = me.saveState;
 
-    view.getTreeStore().on("load",  me.applyState, view);
+    if(view.getTreeStore().isLoading()){
+        view.getTreeStore().on("load",  me.applyState, view);
+    }else{
+        Ext.callback(me.applyState, view);
+    }
+
   },
 
   saveState: function() {
@@ -52,17 +58,16 @@ Ext.define('Core.plugin.TreeStateful', {
 
     if (id) {
       state = me.getState() || [];    //pass along for custom interactions
-
-      if(state.length != 0){
         Ext.state.Manager.set(id, state);
-      }
     }
   },
 
   getState: function(){
 
     var ids = [];
-	
+
+    console.log('getState');
+
 	// Warning! Use private API: tree.flatten()
     var expanded = Ext.Array.filter(this.getTreeStore().tree.flatten(), function (node) {
       return node.get('expanded') == true;
