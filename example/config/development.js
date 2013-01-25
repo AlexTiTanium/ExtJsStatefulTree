@@ -1,9 +1,9 @@
 Ext.log = function () {
-    console.log.apply(console, arguments);
+  console.log.apply(console, arguments);
 }
 
 Ext.error = function () {
-    console.error.apply(console, arguments);
+  console.error.apply(console, arguments);
 }
 
 /**
