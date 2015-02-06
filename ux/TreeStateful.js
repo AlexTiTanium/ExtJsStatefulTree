@@ -1,10 +1,12 @@
 /**
- * TreeStateful plugin for ExtJs 4.1
+ * TreeStateful plugin for ExtJs 5.1
  *
- * @site https://github.com/AlexTiTanium/ExtJsStatefulTree
- * @author Alex Kucherenko <kucherenko.email@gmail.com>
- * @copyright 2012 Alex Kucherenko
+ * @site https://github.com/szhigunov/ExtJsStatefulTree
+ * @author Sergey Zhigunov <i.sergey.zhigunov@gmail.com>
+ * @copyright 2015 Sergey Zhigunov
  * @version 1.0.0
+ *
+ * * Fork of TreeStateful plugin for ExtJs 4.1 by AlexTiTanium
  *
  * MIT LICENSE
  *
