@@ -29,49 +29,52 @@
  */
 
 Ext.define('Ext.ux.TreeStateful', {
-  alias:'plugin.treestateful',
+  alias: 'plugin.treestateful',
 
-  extend:'Ext.AbstractPlugin',
-
-  init:function (view) {
-
+  extend: 'Ext.AbstractPlugin',
+  // add stateEvents and override TreeView methods
+  init: function(view) {
     var me = this;
+    view.addStateEvents(['afteritemcollapse', 'afteritemexpand']);
 
-    view.addStateEvents('afteritemcollapse', 'afteritemexpand');
-
-    view['getState'] = me.getState;
-    view['saveState'] = me.saveState;
-
-    if (view.getTreeStore().isLoading()) {
-      view.getTreeStore().on("load", me.applyState, view);
+    view.getState = me.getState;
+    view.saveState = me.saveState;
+    if (view.getStore().isLoading()) {
+      // restore nodes after load
+      view.getStore().on("load", me.applyState, {
+        scope: view,
+        single: true
+      });
     } else {
       Ext.callback(me.applyState, view);
     }
 
   },
 
-  saveState:function () {
-
+  saveState: function() {
     var me = this,
       id = me.stateful && me.getStateId(),
       state;
 
     if (id) {
-      state = me.getState() || [];    //pass along for custom interactions
+      state = me.getState() || []; //pass along for custom interactions
       Ext.state.Manager.set(id, state);
     }
   },
 
-  getState:function () {
+  getState: function() {
+    var ids = [],
+      expanded = [];
 
-    var ids = [];
-
-    // Warning! Use private API: tree.flatten()
-    var expanded = Ext.Array.filter(this.getTreeStore().tree.flatten(), function (node) {
-      return node.get('expanded') == true;
+    this.getStore().getRoot().cascadeBy({
+      after: function(node) {
+        if (node.isExpanded()) {
+          expanded.push(node);
+        }
+      }
     });
 
-    Ext.each(expanded, function (node) {
+    Ext.each(expanded, function(node) {
       if (node.getId() == 'root') return;
       ids.push(node.getId());
     });
@@ -79,30 +82,32 @@ Ext.define('Ext.ux.TreeStateful', {
     if (ids.length == 0) {
       ids = null;
     }
-
     return ids;
   },
 
-  applyState:function () {
+  applyState: function(state) {
+    if (!this.cmp) {
+      return
+    } else {
+      var me = this,
+        id = me.cmp.stateful && me.cmp.getStateId(),
+        state,
+        store = me.cmp.store,
+        node;
 
-    var me = this,
-      id = me.stateful && me.getStateId(),
-      state,
-      store = me.getTreeStore(),
-      node;
-
+    }
+    // get id of saved nodes and expand it
     if (id) {
-
       state = Ext.state.Manager.get(id);
 
       if (state) {
         state = Ext.apply([], state);
-
-        Ext.each(state, function (id) {
+        Ext.each(state, function(id) {
           node = store.getNodeById(id);
+
           if (node) {
-            node.bubble(function (node) {
-              node.expand()
+            node.bubble(function(node) {
+              node.expand();
             });
           }
         });
