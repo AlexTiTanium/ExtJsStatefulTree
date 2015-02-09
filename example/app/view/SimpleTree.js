@@ -1,18 +1,19 @@
 Ext.define('Example.view.SimpleTree', {
-  extend:'Ext.tree.Panel',
+  extend: 'Ext.tree.Panel',
 
-  height:300,
-  width:200,
+  height: 300,
+  width: 200,
 
-  title:'Simple Tree',
-  viewConfig:{
+  title: 'Simple Tree',
+  viewConfig: {
 
-    stateful:true, // Require
-    stateId:'my_id', //Require, your tree id
+    stateful: true, // Require
+    stateId: 'my_id', //Require, your tree id
 
-    plugins:[ 'treestateful' ]
+    plugins: ['treestateful']
   },
-
-  store:'SimpleTreeStore',
-  renderTo:Ext.getBody()
+  // Note that treestateful plugin doesn't save rootNode state
+  rootVisible: false,
+  store: 'SimpleTreeStore',
+  renderTo: Ext.getBody()
 });

@@ -1,4 +1,4 @@
-Plugin for Sencha ExtJS 4.1 for saving tree folders collapsed / expanded state.
+Plugin for Sencha ExtJS 5.1 for saving Ext.tree.Panel (treepanel) folders collapsed / expanded state.
 
 How to use:
 ===========
@@ -20,9 +20,8 @@ Your tree view:
         stateful: true,   // Require
         stateId: 'my_id', //Require, your tree id 
         
-        plugins:  [ Ext.create('Core.plugin.TreeStateful') ]
+        plugins:  [ Ext.create('Ext.ux.TreeStateful') ] // TreeStateful plugin
       },
-    
       store: 'productsTreeStore' // store id
     });
 
@@ -31,10 +30,4 @@ Your tree view:
 Known issues:
 -----------
 
- - Used private API: 
- 
-        getTreeStore().tree.flatten();
-    
-
- - If child node is expanded, parent node will be expanded too. 
-   Use ctrl + click for collapse parent node and all child nodes. 
+ -  Report if you find any issues
