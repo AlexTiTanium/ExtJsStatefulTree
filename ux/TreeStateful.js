@@ -43,8 +43,7 @@ Ext.define('Ext.ux.TreeStateful', {
     view.saveState = me.saveState;
     if (view.getStore().isLoading()) {
       // restore nodes after load
-      view.getStore().on("load", me.applyState, {
-        scope: view,
+      view.getStore().on("load", me.applyState, this, {
         single: true
       });
     } else {
